@@ -10,10 +10,16 @@ let {
 class TaskForm extends React.Component {
     constructor(props, context){
         super(props, context);
+        this.state = {
+            todo: ''
+        }
     }
 
     addPressed(){
-        console.log('adding');
+        console.log('adding ' + this.state.todo);
+        if(this.props.onAdd){
+            onAdd(this.state.todo);
+        }
     }
 
     render(){
@@ -38,6 +44,7 @@ class TaskForm extends React.Component {
                         borderColor: '#D7D7D7'
                     }}
                     placeholder="Enter task"
+                    onChangeText={(todo) => this.setState({todo})}
                 />
 
                 <TouchableHighlight
@@ -69,7 +76,8 @@ var styles = React.StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#05A5D1',
         marginLeft: 10,
-        marginRight: 10
+        marginRight: 10,
+        borderRadius: 3
     },
 });
 
