@@ -13,26 +13,15 @@ import TaskForm from './TaskForm';
 class TaskList extends React.Component {
     constructor(props, context){
         super(props, context);
+        this.todos = [
+            'Buy a car',
+            'Take car to the carwash',
+            'Get insurance for the car',
+        ];
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         })
-        .cloneWithRows([
-            'Buy a car',
-            'Take car to the carwash',
-            'Get insurance for the car',
-            'Buy a car',
-            'Take car to the carwash',
-            'Get insurance for the car',
-            'Buy a car',
-            'Take car to the carwash',
-            'Get insurance for the car',
-            'Buy a car',
-            'Take car to the carwash',
-            'Get insurance for the car',
-            'Buy a car',
-            'Take car to the carwash',
-            'Get insurance for the car',
-        ]);
+        .cloneWithRows(this.todos);
 
         this.state = {
             dataSource: ds
@@ -47,7 +36,16 @@ class TaskList extends React.Component {
     addPressed(task){
         this.props.navigator.push({
             title: 'Add a task',
-            component: TaskForm
+            component: TaskForm,
+            passProps: {
+                onAdd: (todo) => {
+                    console.log(todo);
+                    this.todos.push(todo);
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(this.todos)
+                    })
+                }
+            }
         })
     }
 

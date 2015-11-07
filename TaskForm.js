@@ -18,8 +18,10 @@ class TaskForm extends React.Component {
     addPressed(){
         console.log('adding ' + this.state.todo);
         if(this.props.onAdd){
-            onAdd(this.state.todo);
+            this.props.onAdd(this.state.todo);
         }
+
+        this.props.navigator.pop();
     }
 
     render(){
