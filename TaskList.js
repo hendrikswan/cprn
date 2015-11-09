@@ -29,8 +29,26 @@ class TaskList extends React.Component {
 
     }
 
+    handleTaskDone(todo){
+        setTimeout(()=> {
+            this.todos = this.todos.filter((t) => t != todo);
+            this.updateDataSource();
+        }, 200);
+
+    }
+
+    updateDataSource(){
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.todos)
+        });
+    }
+
     renderRow(task){
-        return <TaskRow task={task} />
+        return <TaskRow
+            task={task}
+            id={task}
+            onTaskDone={this.handleTaskDone.bind(this)}
+         />
     }
 
     addPressed(task){
@@ -41,9 +59,7 @@ class TaskList extends React.Component {
                 onAdd: (todo) => {
                     console.log(todo);
                     this.todos.push(todo);
-                    this.setState({
-                        dataSource: this.state.dataSource.cloneWithRows(this.todos)
-                    })
+                    this.updateDataSource();
                 }
             }
         })
