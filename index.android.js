@@ -10,43 +10,49 @@ var {
   StyleSheet,
   Text,
   View,
+  Component,
+  Navigator
 } = React;
 
-var CrossTodo = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-});
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+import TaskList from './TaskList';
+import TaskForm from './TaskForm';
+
+
+
+class CrossTodo extends Component {
+    constructor(props){
+        super(props);
+    }
+
+    renderScene(route, nav){
+
+        switch(route.name){
+            case 'tasklist':
+                return (
+                    <TaskList
+                        nav={nav}
+                        route={route}
+                    />
+                );
+            case 'taskform':
+                return (
+                    <TaskForm
+                        nav={nav}
+                        route={route}
+                    />
+                );
+        }
+    }
+
+    render(){
+        return (
+            <Navigator
+              initialRoute={{name: 'tasklist', index: 0}}
+              renderScene={this.renderScene}
+            />
+        );
+    }
+}
 
 AppRegistry.registerComponent('CrossTodo', () => CrossTodo);

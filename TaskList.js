@@ -7,7 +7,7 @@ let {
 } = React;
 
 import TaskRow from './TaskRow';
-import TaskForm from './TaskForm';
+
 
 
 class TaskList extends React.Component {
@@ -52,15 +52,12 @@ class TaskList extends React.Component {
     }
 
     addPressed(task){
-        this.props.navigator.push({
-            title: 'Add a task',
-            component: TaskForm,
-            passProps: {
-                onAdd: (todo) => {
-                    console.log(todo);
-                    this.todos.push(todo);
-                    this.updateDataSource();
-                }
+        this.props.nav.push({
+            name: 'taskform',
+            onAdd: (todo) => {
+                console.log(todo);
+                this.todos.push(todo);
+                this.updateDataSource();
             }
         })
     }
