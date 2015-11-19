@@ -74,38 +74,9 @@ class TaskList extends React.Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)} />
-
-                    <TouchableHighlight
-                        onPress={this.addPressed.bind(this)}
-                        style={styles.button}>
-
-                        <Text style={styles.buttonText}>
-                            Add one
-                        </Text>
-
-                    </TouchableHighlight>
             </View>
         );
     }
 }
-
-var styles = React.StyleSheet.create({
-    buttonText: {
-        fontSize: 20,
-        fontWeight: '600',
-        color: "#FAFAFA",
-        textAlign: 'center',
-    },
-    button: {
-        height: 60,
-        alignSelf: 'stretch',
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderBottomColor: "#05A5D1",
-        borderBottomWidth: 3,
-        backgroundColor: '#333',
-    },
-});
 
 export default TaskList;

@@ -14,124 +14,76 @@
  * @providesModule UIExplorerApp
  * @flow
  */
-'use strict';
 
-var React = require('react-native');
-var {
+const React = require('react-native');
+const {
   AppRegistry,
-  BackAndroid,
   Dimensions,
   DrawerLayoutAndroid,
   StyleSheet,
-  ToolbarAndroid,
   View,
-  Text
+  ToolbarAndroid,
 } = React;
 
-import StateFilterList from './StateFilterList.android.js';
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    toolbar: {
+        backgroundColor: '#E9EAED',
+        height: 56,
+    },
+});
 
-var DRAWER_WIDTH_LEFT = 56;
+import SideBar from './SideBar.android';
+import TaskList from './TaskList';
 
-var UIExplorerApp = React.createClass({
-  getInitialState: function() {
-    return {
-      example: this._getUIExplorerHome(),
-    };
-  },
+const DRAWER_WIDTH_LEFT = 100;
 
-  _getUIExplorerHome: function() {
-    return {
-      title: 'UIExplorer',
-      component: this._renderHome(),
-    };
-  },
+class CrossTodo extends React.Component {
 
-  componentWillMount: function() {
-    BackAndroid.addEventListener('hardwareBackPress', this._handleBackButtonPress);
-  },
-
-  render: function() {
-    return (
-      <DrawerLayoutAndroid
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
-        keyboardDismissMode="none"
-        ref={(drawer) => { this.drawer = drawer; }}
-        renderNavigationView={this._renderNavigationView}>
-        {this._renderNavigation()}
-      </DrawerLayoutAndroid>
-      );
-  },
-
-  _renderNavigationView: function() {
-    return (
-      <View style={{
-          backgroundColor: '#fff',
-      }}>
-
-<StateFilterList />
-      </View>
-    );
-  },
-
-  onSelectExample: function(example) {
-    this.drawer.closeDrawer();
-    // if (example.title === this._getUIExplorerHome().title) {
-    //   example = this._getUIExplorerHome();
-    // }
-    // this.setState({
-    //   example: example,
-    // });
-  },
-
-  _renderHome: function() {
-    var onSelectExample = this.onSelectExample;
-    return React.createClass({
-      render: function() {
-        return (
-            <Text>This is where we will show the tasks</Text>
-        );
-      }
-    });
-  },
-
-  _renderNavigation: function() {
-    var Component = this.state.example.component;
-    return (
-      <View style={styles.container}>
-        <ToolbarAndroid
-          navIcon={require('./images/gear.png')}
-          onIconClicked={() => this.drawer.openDrawer()}
-          style={styles.toolbar}
-          title={this.state.example.title}
-        />
-        <Component />
-      </View>
-    );
-  },
-
-  _handleBackButtonPress: function() {
-    if (this.state.example.title !== this._getUIExplorerHome().title) {
-      this.onSelectExample(this._getUIExplorerHome());
-      return true;
+    componentWillMount() {
+        // BackAndroid.addEventListener('hardwareBackPress', this._handleBackButtonPress);
     }
-    return false;
-  },
-});
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  toolbar: {
-    backgroundColor: '#E9EAED',
-    height: 56,
-  },
-});
+    renderNavigationView() {
+        return (
+            <View style={{
+                backgroundColor: '#fff',
+            }}>
 
-AppRegistry.registerComponent('CrossTodo', () => UIExplorerApp);
+                <SideBar />
+            </View>
+        );
+    }
 
-// module.exports = UIExplorerApp;
-//
-//
-// AppRegistry.registerComponent('CrossTodo', () => CrossTodo);
+    renderNavigation() {
+        return (
+            <View style={styles.container}>
+                <ToolbarAndroid
+                  navIcon={require('./images/menu.png')}
+                  onIconClicked={() => this.drawer.openDrawer()}
+                  style={styles.toolbar}
+                  title="List of tasks"
+                />
+                <TaskList />
+            </View>
+        );
+    }
+
+    render() {
+        return (
+        <DrawerLayoutAndroid
+            drawerPosition={DrawerLayoutAndroid.positions.Left}
+            drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
+            keyboardDismissMode="none"
+            ref={(drawer) => { this.drawer = drawer; }}
+            renderNavigationView={this.renderNavigationView}>
+            {this.renderNavigation()}
+        </DrawerLayoutAndroid>
+        );
+    }
+}
+
+
+AppRegistry.registerComponent('CrossTodo', () => CrossTodo);
