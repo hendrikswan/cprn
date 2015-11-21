@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     button: {
-        height: 60,
+        height: 45,
         alignSelf: 'stretch',
         margin: 20,
         justifyContent: 'center',
@@ -44,21 +44,26 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 25,
         color: '#444',
-    }
+    },
 });
 
 class SideBar extends React.Component {
 
+
     addPressed() {
         console.log('add was pressed');
+        if (this.props.onAddNew) {
+            this.props.onAddNew();
+        }
     }
 
     render() {
         return (
             <View>
+
                 <StateFilterList />
                 <TouchableHighlight
-                    onPress={this.addPressed}
+                    onPress={this.addPressed.bind(this)}
                     style={styles.button}
                 >
 
@@ -71,5 +76,10 @@ class SideBar extends React.Component {
         );
     }
 }
+
+SideBar.propTypes = {
+    onAddNew: React.PropTypes.func.isRequired,
+};
+
 
 export default SideBar;

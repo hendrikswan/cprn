@@ -1,35 +1,34 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- */
-'use strict';
+ *
+*/
 
-var React = require('react-native');
-var {
+const React = require('react-native');
+const {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View,
   Component,
-  NavigatorIOS
+  NavigatorIOS,
 } = React;
 
 import TaskList from './TaskList';
 
 class CrossTodo extends Component {
-    constructor(props){
+
+    constructor(props) {
         super(props);
     }
 
-    render(){
+    render() {
         return (
             <NavigatorIOS
-                style={{
-                    flex: 1
-                }}
                 initialRoute={{
                     component: TaskList,
-                    title: 'List of tasks'
+                    title: 'List of tasks',
+                }}
+
+                style={{
+                    flex: 1,
                 }}
             />
         );
