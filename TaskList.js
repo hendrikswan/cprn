@@ -1,23 +1,21 @@
 import React from 'react-native';
-let {
+const {
     Text,
     ListView,
     View,
-    TouchableHighlight
+    TouchableHighlight,
 } = React;
 
 import TaskRow from './TaskRow';
-
+var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 
 
 class TaskList extends React.Component {
     constructor(props, context){
         super(props, context);
-        this.todos = [
-            'Buy a car',
-            'Take car to the carwash',
-            'Get insurance for the car',
-        ];
+
+        this.todos = this.props.todos; //copying over to instance, because we need to hook into componentWillReceiveProps
+
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         })
@@ -29,27 +27,29 @@ class TaskList extends React.Component {
 
     }
 
-    handleTaskDone(todo){
-        setTimeout(()=> {
-            this.todos = this.todos.filter((t) => t != todo);
-            this.updateDataSource();
-        }, 200);
-
-    }
-
     updateDataSource(){
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this.todos)
         });
     }
 
-    renderRow(task){
-        return <TaskRow
-            task={task}
-            id={task}
-            onTaskDone={this.handleTaskDone.bind(this)}
-         />
+    componentWillReceiveProps(nextProps){
+        this.todos = nextProps.todos;
+        this.updateDataSource();
     }
+
+
+
+    renderRow(task){
+        return  (
+            <TaskRow
+                id={task}
+                task={task}
+            />
+        );
+
+    }
+
 
     addPressed(task){
         this.props.nav.push({
@@ -62,7 +62,12 @@ class TaskList extends React.Component {
         })
     }
 
+     componentWillUpdate(){
+
+     }
+
     render(){
+        console.log('rerendering the list of tasks');
         return (
             <View style={{
                 flex: 1,
@@ -78,5 +83,9 @@ class TaskList extends React.Component {
         );
     }
 }
+
+TaskList.propTypes = {
+    todos: React.PropTypes.array.isRequired,
+};
 
 export default TaskList;

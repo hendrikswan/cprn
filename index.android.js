@@ -24,6 +24,7 @@ const {
   View,
   ToolbarAndroid,
   Navigator,
+  Text,
 } = React;
 
 const styles = StyleSheet.create({
@@ -43,9 +44,24 @@ import TaskForm from './TaskForm';
 const DRAWER_WIDTH_LEFT = 50;
 
 class CrossTodo extends React.Component {
-
-    componentWillMount() {
-        // BackAndroid.addEventListener('hardwareBackPress', this._handleBackButtonPress);
+    constructor(props) {
+        super(props);
+        this.state = {
+            todos: [
+                {
+                    task: 'Buy a car',
+                    isDone: false,
+                },
+                {
+                    task: 'Take it to the car wash',
+                    isDone: false,
+                },
+                {
+                    task: 'Get some insurance',
+                    isDone: true,
+                },
+            ],
+        };
     }
 
     addNew() {
@@ -53,12 +69,18 @@ class CrossTodo extends React.Component {
         console.log('adding a new todo item!');
         this.navigator.push({
             name: 'taskform',
-            onAdd: (todo) => {
-                console.log(todo);
-                // this.todos.push(todo);
-                // this.updateDataSource();
-            },
+            onAdd: this.onAdd.bind(this),
         });
+
+    }
+
+    onAdd(task) {
+        const cloned = this.state.todos.slice(0);
+        cloned.push({
+            task: task,
+            isDone: false,
+        });
+        this.setState({todos: cloned});
     }
 
     renderNavigationView() {
@@ -87,6 +109,7 @@ class CrossTodo extends React.Component {
                 <TaskList
                     nav={nav}
                     route={route}
+                    todos={this.state.todos}
                 />
             );
         }
@@ -99,31 +122,8 @@ class CrossTodo extends React.Component {
     }
 
     configureScene() {
-        debugger;
         return Navigator.SceneConfigs.FloatFromBottom;
     }
-
-
-    renderNavigation() {
-        return (
-            <View style={styles.container}>
-                <ToolbarAndroid
-                    navIcon={require('./images/menu.png')}
-                    onIconClicked={() => this.drawer.openDrawer()}
-                    ref={this.getRememberHandler.bind(this)('toolbar')}
-                    style={styles.toolbar}
-                    title="List of tasks"
-                />
-                <Navigator
-                    configureScene={this.configureScene}
-                    initialRoute={{name: 'tasklist', index: 0}}
-                    ref={this.getRememberHandler.bind(this)('navigator')}
-                    renderScene={this.renderScene}
-                />
-            </View>
-        );
-    }
-
 
     render() {
         return (
@@ -134,7 +134,22 @@ class CrossTodo extends React.Component {
             ref={this.getRememberHandler.bind(this)('drawer')}
             renderNavigationView={this.renderNavigationView.bind(this)}
         >
-            {this.renderNavigation()}
+            <View style={styles.container}>
+                <ToolbarAndroid
+                    navIcon={require('./images/menu.png')}
+                    onIconClicked={() => this.drawer.openDrawer()}
+                    ref={this.getRememberHandler.bind(this)('toolbar')}
+                    style={styles.toolbar}
+                    title="List of tasks"
+                />
+
+                <Navigator
+                    configureScene={this.configureScene}
+                    initialRoute={{name: 'tasklist', index: 0}}
+                    ref={this.getRememberHandler.bind(this)('navigator')}
+                    renderScene={this.renderScene.bind(this)}
+                />
+            </View>
         </DrawerLayoutAndroid>
         );
     }
