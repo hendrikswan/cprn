@@ -20,6 +20,11 @@ class TaskForm extends React.Component {
         this.props.nav.pop();
     }
 
+    cancelPressed(){
+        this.props.route.onCancel && this.props.route.onCancel();
+        this.props.nav.pop();
+    }
+
     render(){
         return (
             <View
@@ -54,6 +59,16 @@ class TaskForm extends React.Component {
                     </Text>
 
                 </TouchableHighlight>
+
+                <TouchableHighlight
+                    onPress={this.cancelPressed.bind(this)}
+                    style={[styles.button, styles.cancelButton]}>
+
+                    <Text style={styles.buttonText}>
+                        Cancel
+                    </Text>
+
+                </TouchableHighlight>
             </View>
         );
     }
@@ -76,6 +91,9 @@ var styles = React.StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 3
+    },
+    cancelButton: {
+        backgroundColor: '#666'
     },
 });
 
