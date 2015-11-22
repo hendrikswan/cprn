@@ -7,6 +7,7 @@ const {
     View,
     StyleSheet,
     Text,
+    Image,
 } = React;
 
 const styles = StyleSheet.create({
@@ -14,7 +15,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10,
-        backgroundColor: '#F6F6F6',
+        backgroundColor: '#FDFDFD',
+        paddingLeft: 20,
     },
     separator: {
         height: 1,
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
     },
     text: {
         flex: 1,
+        fontSize: 18,
     },
 });
 
@@ -46,31 +49,43 @@ class StateFilterList extends React.Component {
     }
 
     cloneDataSource(dataSource, todos) {
-        const doneCount = _.where(todos, {isDone: true}).length;
-        const pendingCount = _.where(todos, {isDone: false}).length;
+        const counted = _.countBy(todos, (todo) => todo.state);
+        const countedArray = _(counted)
+            .keys()
+            .map((key)=> {
+                return {
+                    key: key,
+                    count: counted[key],
+                };
+            })
+            .value();
 
-        return dataSource.cloneWithRows([
-            `Pending (${pendingCount})`,
-            `Done (${doneCount})`,
-        ]);
+        return dataSource.cloneWithRows(countedArray);
     }
 
-    pressRow(rowID: number) {
-        console.log(rowID);
+    pressRow(rowData: object) {
+        this.props.onFilter && this.props.onFilter(rowData.key);
     }
 
-    renderRow(rowData: string, sectionID: number, rowID: number) {
+    renderRow(rowData: object, sectionID: number, rowID: number) {
         return (
-          <TouchableHighlight onPress={() => this.pressRow(rowID)}>
+        <TouchableHighlight onPress={() => this.pressRow(rowData)}>
             <View>
-              <View style={styles.row}>
-                <Text style={styles.text}>
-                  {rowData}
-                </Text>
-              </View>
-              <View style={styles.separator} />
+                <View style={styles.row}>
+                    <Text style={styles.text}>
+                        {rowData.key}
+                    </Text>
+                    <Text style={{
+                        fontWeight: '900',
+                        fontSize: 18,
+                        color: '#444',
+                    }}>
+                        {rowData.count}
+                    </Text>
+                </View>
+                <View style={styles.separator} />
             </View>
-          </TouchableHighlight>
+        </TouchableHighlight>
         );
     }
 
@@ -78,7 +93,7 @@ class StateFilterList extends React.Component {
         return (
             <ListView
                 dataSource={this.state.dataSource}
-                renderRow={this.renderRow}
+                renderRow={this.renderRow.bind(this)}
             />
         );
     }

@@ -47,18 +47,19 @@ class CrossTodo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            selectedState: 'Pending',
             todos: [
                 {
                     task: 'Buy a car',
-                    isDone: false,
+                    state: 'Pending',
                 },
                 {
                     task: 'Take it to the car wash',
-                    isDone: false,
+                    state: 'Pending',
                 },
                 {
                     task: 'Get some insurance',
-                    isDone: true,
+                    state: 'Done',
                 },
             ],
         };
@@ -78,9 +79,14 @@ class CrossTodo extends React.Component {
         const cloned = this.state.todos.slice(0);
         cloned.push({
             task: task,
-            isDone: false,
+            state: 'Pending',
         });
         this.setState({todos: cloned});
+    }
+
+    onFilter(selectedState) {
+        this.drawer.closeDrawer();
+        this.setState({selectedState});
     }
 
     renderNavigationView() {
@@ -93,6 +99,7 @@ class CrossTodo extends React.Component {
                 <SideBar
                     onAddNew={this.addNew.bind(this)}
                     todos={this.state.todos}
+                    onFilter={this.onFilter.bind(this)}
                 />
             </View>
         );
@@ -113,6 +120,7 @@ class CrossTodo extends React.Component {
                 <TaskList
                     nav={nav}
                     route={route}
+                    selectedState={this.state.selectedState}
                     todos={this.state.todos}
                 />
             );
@@ -145,7 +153,7 @@ class CrossTodo extends React.Component {
                     onIconClicked={() => this.drawer.openDrawer()}
                     ref={this.getRememberHandler.bind(this)('toolbar')}
                     style={styles.toolbar}
-                    title="My list"
+                    title={`My ${this.state.selectedState} List`}
                 />
 
                 <Navigator

@@ -5,6 +5,7 @@ const {
     View,
     TouchableHighlight,
 } = React;
+import _ from 'lodash';
 
 import TaskRow from './TaskRow';
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
@@ -14,28 +15,21 @@ class TaskList extends React.Component {
     constructor(props, context){
         super(props, context);
 
-        this.todos = this.props.todos; //copying over to instance, because we need to hook into componentWillReceiveProps
-
-        var ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 != r2
-        })
-        .cloneWithRows(this.todos);
-
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds
+            dataSource: this.cloneDataSource(ds, this.props),
         };
-
     }
 
-    updateDataSource(){
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.todos)
-        });
+    cloneDataSource(dataSource, props) {
+        debugger;
+        const filteredTodos = _.where(props.todos, {state: props.selectedState});
+        return dataSource.cloneWithRows(filteredTodos);
     }
 
     componentWillReceiveProps(nextProps){
-        this.todos = nextProps.todos;
-        this.updateDataSource();
+        const dataSource = this.cloneDataSource(this.state.dataSource, nextProps);
+        this.setState({dataSource});
     }
 
 
@@ -44,7 +38,7 @@ class TaskList extends React.Component {
         return  (
             <TaskRow
                 id={task}
-                task={task}
+                todo={task}
             />
         );
 
@@ -55,7 +49,6 @@ class TaskList extends React.Component {
         this.props.nav.push({
             name: 'taskform',
             onAdd: (todo) => {
-                console.log(todo);
                 this.todos.push(todo);
                 this.updateDataSource();
             }
@@ -81,7 +74,8 @@ class TaskList extends React.Component {
 }
 
 TaskList.propTypes = {
-    todos: React.PropTypes.array.isRequired,
+    todos: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    selectedState: React.PropTypes.string.isRequired,
 };
 
 export default TaskList;

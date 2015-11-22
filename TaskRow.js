@@ -67,7 +67,7 @@ class TaskRow extends React.Component {
                                     fontSize: 20,
                                     fontWeight: '600',
                                 }}>
-                                    {this.props.task}
+                                    {this.props.todo.task}
                                 </Text>
                         </View>
                     </Swipeout>
