@@ -34,6 +34,7 @@ class TaskList extends React.Component {
             <TaskRow
                 id={task}
                 todo={task}
+                onTodoDone={this.props.onTodoDone}
             />
         );
     }
@@ -72,6 +73,7 @@ TaskList.propTypes = {
     nav: React.PropTypes.shape({
         push: React.PropTypes.func,
     }).isRequired,
+    onTodoDone: React.PropTypes.func.isRequired,
     selectedState: React.PropTypes.string.isRequired,
     todos: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 };

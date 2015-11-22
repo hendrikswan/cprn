@@ -105,6 +105,10 @@ class CrossTodo extends React.Component {
         );
     }
 
+    handleTodoDone(todo) {
+        todo.state = 'Done';
+        this.setState({todos: this.state.todos});
+    }
 
     renderScene(route, nav) {
         switch (route.name) {
@@ -119,6 +123,7 @@ class CrossTodo extends React.Component {
             return (
                 <TaskList
                     nav={nav}
+                    onTodoDone={this.handleTodoDone.bind(this)}
                     route={route}
                     selectedState={this.state.selectedState}
                     todos={this.state.todos}
