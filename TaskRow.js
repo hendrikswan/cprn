@@ -1,33 +1,31 @@
 import React from 'react-native';
-let {
+const {
     Text,
     View,
-    PanResponder,
 } = React;
 import Swipeout from 'react-native-swipeout';
 
 
 class TaskRow extends React.Component {
-    constructor(props, context){
+    constructor(props, context) {
         super(props, context);
         this.state = {};
-
     }
 
-    handleDonePress(){
-        this.props.onTaskDone && this.props.onTaskDone(this.props.task);
+    handleDonePress() {
+        if (this.props.onTaskDone) {
+            this.props.onTaskDone(this.props.todo);
+        }
         this.setState({deleted: true});
     }
 
-    render(){
-        var swipeoutBtns = [
-          {
+    render() {
+        const swipeoutBtns = [{
             text: 'Done',
             backgroundColor: '#05A5D1',
             underlayColor: '#273539',
             onPress: this.handleDonePress.bind(this),
-          }
-        ];
+        }];
 
         return (
 
@@ -35,38 +33,30 @@ class TaskRow extends React.Component {
                     marginBottom: 20,
                     marginLeft: 20,
                     marginRight: 20,
-                }}>
+                }}
+                >
                     <Swipeout
+                        backgroundColor="#fff"
+                        close={this.state.deleted}
                         right={swipeoutBtns}
-                        backgroundColor='#fff'
                         style={{
                             marginBottom: 20,
                         }}
-                        close={this.state.deleted}
                     >
 
                         <View style={{
-                            //padding: 20,
                             borderColor: '#E7E7E7',
                             borderWidth: 1,
                             backgroundColor: '#fff',
-                            // marginBottom: 20,
-                            // marginLeft: 10,
-                            // marginRight: 10,
-                            // shadowOffset: {
-                            //     width: 0,
-                            //     height: 1
-                            // },
-                            // shadowOpacity: 0.6,
-                            // shadowColor: '#000',
                             padding: 20,
-
-                        }}>
+                        }}
+                        >
 
                                 <Text style={{
                                     fontSize: 20,
                                     fontWeight: '600',
-                                }}>
+                                }}
+                                >
                                     {this.props.todo.task}
                                 </Text>
                         </View>
@@ -74,8 +64,12 @@ class TaskRow extends React.Component {
                 </View>
 
         );
-
     }
 }
+
+TaskRow.propTypes = {
+    onTaskDone: React.PropTypes.func.isRequired,
+    todo: React.PropTypes.object.isRequired,
+};
 
 export default TaskRow;

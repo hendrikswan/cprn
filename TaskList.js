@@ -67,15 +67,16 @@ class TaskList extends React.Component {
 
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)} />
+                    renderRow={this.renderRow.bind(this)}
+                />
             </View>
         );
     }
 }
 
 TaskList.propTypes = {
-    todos: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     selectedState: React.PropTypes.string.isRequired,
+    todos: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 };
 
 export default TaskList;
