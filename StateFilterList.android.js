@@ -7,7 +7,6 @@ const {
     View,
     StyleSheet,
     Text,
-    Image,
 } = React;
 
 const styles = StyleSheet.create({
@@ -63,11 +62,13 @@ class StateFilterList extends React.Component {
         return dataSource.cloneWithRows(countedArray);
     }
 
-    pressRow(rowData: object) {
-        this.props.onFilter && this.props.onFilter(rowData.key);
+    pressRow(rowData){
+        if (this.props.onFilter) {
+            this.props.onFilter(rowData.key);
+        }
     }
 
-    renderRow(rowData: object, sectionID: number, rowID: number) {
+    renderRow(rowData, sectionID, rowID) {
         return (
         <TouchableHighlight onPress={() => this.pressRow(rowData)}>
             <View>
@@ -79,7 +80,8 @@ class StateFilterList extends React.Component {
                         fontWeight: '900',
                         fontSize: 18,
                         color: '#444',
-                    }}>
+                    }}
+                    >
                         {rowData.count}
                     </Text>
                 </View>
@@ -100,6 +102,7 @@ class StateFilterList extends React.Component {
 }
 
 StateFilterList.propTypes = {
+    onFilter: React.PropTypes.func.required,
     todos: React.PropTypes.arrayOf(React.PropTypes.object),
 };
 
