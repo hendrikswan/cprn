@@ -32,7 +32,7 @@ class TaskForm extends React.Component {
                     flex: 1,
                     justifyContent: 'flex-start',
                     paddingTop: 150,
-                    backgroundColor: '#F7F7F7'
+                    backgroundColor: '#F7F7F7',
                 }}
             >
                 <TextInput
@@ -44,7 +44,7 @@ class TaskForm extends React.Component {
                         marginRight: 10,
                         padding: 15,
                         borderRadius: 3,
-                        borderColor: '#D7D7D7'
+                        borderColor: '#D7D7D7',
                     }}
                     placeholder="Enter task"
                     onChangeText={(todo) => this.setState({todo})}

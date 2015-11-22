@@ -136,11 +136,12 @@ class CrossTodo extends React.Component {
         >
             <View style={styles.container}>
                 <ToolbarAndroid
+                    // logo={require('./images/gear.png')}
                     navIcon={require('./images/menu.png')}
                     onIconClicked={() => this.drawer.openDrawer()}
                     ref={this.getRememberHandler.bind(this)('toolbar')}
                     style={styles.toolbar}
-                    title="List of tasks"
+                    title="My list"
                 />
 
                 <Navigator

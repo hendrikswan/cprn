@@ -62,10 +62,6 @@ class TaskList extends React.Component {
         })
     }
 
-     componentWillUpdate(){
-
-     }
-
     render(){
         console.log('rerendering the list of tasks');
         return (

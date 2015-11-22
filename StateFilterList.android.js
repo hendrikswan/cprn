@@ -1,6 +1,6 @@
 import React from 'react-native';
 
-let {
+const {
     ListView,
     TouchableHighlight,
     View,
@@ -8,47 +8,7 @@ let {
     Text,
 } = React;
 
-let StateFilterList = React.createClass({
-    getInitialState: function() {
-      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      return {
-        dataSource: ds.cloneWithRows([
-            'Pending',
-            'Done',
-        ]),
-      };
-    },
-
-    render: function() {
-        return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow}
-            />
-        );
-    },
-
-    pressRow: function(rowID: number) {
-        console.log(rowID);
-    },
-
-    renderRow: function(rowData: string, sectionID: number, rowID: number) {
-        return (
-          <TouchableHighlight onPress={() => this.pressRow(rowID)}>
-            <View>
-              <View style={styles.row}>
-                <Text style={styles.text}>
-                  {rowData}
-                </Text>
-              </View>
-              <View style={styles.separator} />
-            </View>
-          </TouchableHighlight>
-        );
-    },
-});
-
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -67,5 +27,51 @@ var styles = StyleSheet.create({
         flex: 1,
     },
 });
+
+class StateFilterList extends React.Component {
+    constructor() {
+        super();
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows([
+                'Pending',
+                'Done',
+            ]),
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.todos = nextProps.todos;
+        this.updateDataSource();
+    }
+
+    pressRow(rowID: number) {
+        console.log(rowID);
+    }
+
+    renderRow(rowData: string, sectionID: number, rowID: number) {
+        return (
+          <TouchableHighlight onPress={() => this.pressRow(rowID)}>
+            <View>
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                  {rowData}
+                </Text>
+              </View>
+              <View style={styles.separator} />
+            </View>
+          </TouchableHighlight>
+        );
+    }
+
+    render() {
+        return (
+            <ListView
+                dataSource={this.state.dataSource}
+                renderRow={this.renderRow}
+            />
+        );
+    }
+}
 
 export default StateFilterList;
