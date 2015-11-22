@@ -38,7 +38,6 @@ class TaskList extends React.Component {
         );
     }
 
-
     addPressed(task) {
         this.props.nav.push({
             name: 'taskform',

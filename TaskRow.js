@@ -69,7 +69,9 @@ class TaskRow extends React.Component {
 
 TaskRow.propTypes = {
     onTaskDone: React.PropTypes.func.isRequired,
-    todo: React.PropTypes.object.isRequired,
+    todo: React.PropTypes.shape({
+        task: React.PropTypes.string.required,
+    }).isRequired,
 };
 
 export default TaskRow;
