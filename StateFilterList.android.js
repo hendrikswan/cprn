@@ -1,4 +1,5 @@
 import React from 'react-native';
+import _ from 'lodash';
 
 const {
     ListView,
@@ -29,20 +30,29 @@ const styles = StyleSheet.create({
 });
 
 class StateFilterList extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        const todos = this.props.todos;
         this.state = {
-            dataSource: ds.cloneWithRows([
-                'Pending',
-                'Done',
-            ]),
+            dataSource: this.cloneDataSource(ds, todos),
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        this.todos = nextProps.todos;
-        this.updateDataSource();
+        const todos = nextProps.todos;
+        const dataSource = this.cloneDataSource(this.state.dataSource, todos);
+        this.setState({dataSource});
+    }
+
+    cloneDataSource(dataSource, todos) {
+        const doneCount = _.where(todos, {isDone: true}).length;
+        const pendingCount = _.where(todos, {isDone: false}).length;
+
+        return dataSource.cloneWithRows([
+            `Pending (${pendingCount})`,
+            `Done (${doneCount})`,
+        ]);
     }
 
     pressRow(rowID: number) {
@@ -73,5 +83,9 @@ class StateFilterList extends React.Component {
         );
     }
 }
+
+StateFilterList.propTypes = {
+    todos: React.PropTypes.arrayOf(React.PropTypes.object),
+};
 
 export default StateFilterList;

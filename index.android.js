@@ -84,12 +84,16 @@ class CrossTodo extends React.Component {
     }
 
     renderNavigationView() {
+        debugger;
         return (
             <View style={{
                 backgroundColor: '#fff',
             }}
             >
-                <SideBar onAddNew={this.addNew.bind(this)} />
+                <SideBar
+                    onAddNew={this.addNew.bind(this)}
+                    todos={this.state.todos}
+                />
             </View>
         );
     }

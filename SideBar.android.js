@@ -48,7 +48,9 @@ const styles = StyleSheet.create({
 });
 
 class SideBar extends React.Component {
-
+    constructor(props){
+        super(props);
+    }
 
     addPressed() {
         console.log('add was pressed');
@@ -61,7 +63,9 @@ class SideBar extends React.Component {
         return (
             <View>
 
-                <StateFilterList />
+                <StateFilterList
+                    todos={this.props.todos}
+                />
                 <TouchableHighlight
                     onPress={this.addPressed.bind(this)}
                     style={styles.button}
@@ -79,6 +83,7 @@ class SideBar extends React.Component {
 
 SideBar.propTypes = {
     onAddNew: React.PropTypes.func.isRequired,
+    todos: React.PropTypes.arrayOf(React.PropTypes.object),
 };
 
 
