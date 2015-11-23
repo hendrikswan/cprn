@@ -24,7 +24,6 @@ const {
   View,
   ToolbarAndroid,
   Navigator,
-  Text,
 } = React;
 
 const styles = StyleSheet.create({
@@ -72,7 +71,6 @@ class CrossTodo extends React.Component {
             name: 'taskform',
             onAdd: this.onAdd.bind(this),
         });
-
     }
 
     onAdd(task) {
@@ -81,7 +79,10 @@ class CrossTodo extends React.Component {
             task: task,
             state: 'Pending',
         });
-        this.setState({todos: cloned});
+        this.setState({
+            todos: cloned,
+            selectedState: 'Pending',
+        });
     }
 
     onFilter(selectedState) {
@@ -97,8 +98,8 @@ class CrossTodo extends React.Component {
             >
                 <SideBar
                     onAddNew={this.addNew.bind(this)}
-                    todos={this.state.todos}
                     onFilter={this.onFilter.bind(this)}
+                    todos={this.state.todos}
                 />
             </View>
         );

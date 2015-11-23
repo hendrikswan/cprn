@@ -35,6 +35,28 @@ class TaskRow extends React.Component {
     }
 
     render() {
+        let actionButton = null;
+
+        if (this.props.todo.state === 'Pending') {
+            actionButton = (
+                <TouchableHighlight
+                    onPress={this.handleDonePress.bind(this)}
+                    style={{
+                        borderRadius: 15,
+                        padding: 5,
+                    }}
+                    underlayColor="#ddd"
+                >
+                    <Image
+                        source={require('./images/done.png')}
+                        style={{
+                            marginTop: 0,
+                        }}
+                    />
+                </TouchableHighlight>
+            );
+        }
+
         return (
 
                 <Animated.View style={{
@@ -67,21 +89,8 @@ class TaskRow extends React.Component {
                             {this.props.todo.task}
                         </Text>
 
-                        <TouchableHighlight
-                            onPress={this.handleDonePress.bind(this)}
-                            style={{
-                                borderRadius: 15,
-                                padding: 5,
-                            }}
-                            underlayColor="#ddd"
-                        >
-                            <Image
-                                source={require('./images/done.png')}
-                                style={{
-                                    marginTop: 0,
-                                }}
-                            />
-                        </TouchableHighlight>
+
+                        {actionButton}
                     </View>
                 </Animated.View>
 
@@ -93,6 +102,7 @@ TaskRow.propTypes = {
     onTodoDone: React.PropTypes.func.isRequired,
     todo: React.PropTypes.shape({
         task: React.PropTypes.string.required,
+        state: React.PropTypes.string.required,
     }).isRequired,
 };
 
