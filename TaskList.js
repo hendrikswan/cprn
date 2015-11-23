@@ -4,7 +4,7 @@ const {
     View,
 } = React;
 import _ from 'lodash';
-import TaskRow from './TaskRow';
+import TaskRow from './TaskRow/index';
 
 
 class TaskList extends React.Component {

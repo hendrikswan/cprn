@@ -13,6 +13,10 @@ const {
 
 import TaskList from './TaskList';
 
+import sayHello from './test';
+
+sayHello();
+
 class CrossTodo extends Component {
 
     constructor(props) {
@@ -25,6 +29,15 @@ class CrossTodo extends Component {
                 initialRoute={{
                     component: TaskList,
                     title: 'List of tasks',
+                    passProps: {
+                        todos: [
+                            {
+                                task: 'wazup',
+                                state: 'Pending',
+                            },
+                        ],
+                        selectedState: 'Pending',
+                    },
                 }}
 
                 style={{
