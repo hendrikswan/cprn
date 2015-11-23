@@ -29,12 +29,13 @@ class TaskList extends React.Component {
     }
 
 
-    renderRow(task) {
+    renderRow(todo) {
         return (
             <TaskRow
-                id={task}
-                todo={task}
+                id={todo}
+                key={todo.task}
                 onTodoDone={this.props.onTodoDone}
+                todo={todo}
             />
         );
     }
@@ -62,6 +63,7 @@ class TaskList extends React.Component {
 
                 <ListView
                     dataSource={this.state.dataSource}
+                    key={this.props.todos}
                     renderRow={this.renderRow.bind(this)}
                 />
             </View>

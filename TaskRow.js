@@ -4,29 +4,47 @@ const {
     View,
     Image,
     TouchableHighlight,
+    Animated,
+    Easing,
 } = React;
 
 
 class TaskRow extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            doneAnimation: new Animated.Value(0),
+        };
     }
 
     handleDonePress() {
-        if (this.props.onTodoDone) {
-            this.props.onTodoDone(this.props.todo);
-        }
-        this.setState({deleted: true});
+        Animated.timing(          // Uses easing functions
+            this.state.doneAnimation, {
+                toValue: 1,
+                duration: 300,
+                easing: Easing.easeOutSine,
+            },
+        ).start();
+
+        setTimeout(()=> {
+            if (this.props.onTodoDone) {
+                this.props.onTodoDone(this.props.todo);
+            }
+            this.setState({deleted: true});
+        }, 500);
     }
 
     render() {
         return (
 
-                <View style={{
+                <Animated.View style={{
                     marginBottom: 20,
                     marginLeft: 20,
                     marginRight: 20,
+                    translateX: this.state.doneAnimation.interpolate({
+                        inputRange: [0, 0.1, 1],
+                        outputRange: [0, -100, -1200],  // 0 : 150, 0.5 : 75, 1 : 0
+                    }),
                 }}
                 >
 
@@ -60,7 +78,7 @@ class TaskRow extends React.Component {
                             />
                         </TouchableHighlight>
                     </View>
-                </View>
+                </Animated.View>
 
         );
     }

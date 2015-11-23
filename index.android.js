@@ -90,7 +90,6 @@ class CrossTodo extends React.Component {
     }
 
     renderNavigationView() {
-        debugger;
         return (
             <View style={{
                 backgroundColor: '#fff',
