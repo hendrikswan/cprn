@@ -62,7 +62,7 @@ class StateFilterList extends React.Component {
         return dataSource.cloneWithRows(countedArray);
     }
 
-    pressRow(rowData){
+    pressRow(rowData) {
         if (this.props.onFilter) {
             this.props.onFilter(rowData.key);
         }
@@ -70,7 +70,9 @@ class StateFilterList extends React.Component {
 
     renderRow(rowData, sectionID, rowID) {
         return (
-        <TouchableHighlight onPress={() => this.pressRow(rowData)}>
+        <TouchableHighlight
+            onPress={() => this.pressRow(rowData)}
+        >
             <View>
                 <View style={styles.row}>
                     <Text style={styles.text}>

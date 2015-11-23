@@ -69,11 +69,16 @@ class TaskRow extends React.Component {
 
                         <TouchableHighlight
                             onPress={this.handleDonePress.bind(this)}
+                            style={{
+                                borderRadius: 15,
+                                padding: 5,
+                            }}
+                            underlayColor="#ddd"
                         >
                             <Image
                                 source={require('./images/done.png')}
                                 style={{
-                                    marginTop: 5,
+                                    marginTop: 0,
                                 }}
                             />
                         </TouchableHighlight>
